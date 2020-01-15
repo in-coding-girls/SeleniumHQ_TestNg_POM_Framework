@@ -18,8 +18,7 @@ public class SeleniumHQHomePagePF extends Base {
 	private static final String HOMEPAGE_URL = "https://selenium.dev/";
 	private String searchTerm = "selenium java";
 
-    //private final By searchButtonLocator = By.xpath("//*[@value='GO']");
-	
+    //private final By searchButtonLocator = By.xpath("//*[@value='GO']");	
 	private final static By searchInputLocatorBy = By.name("search");		
 	@FindBy(name = "search")
 	private WebElement searchInput;

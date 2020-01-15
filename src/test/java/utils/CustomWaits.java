@@ -24,22 +24,19 @@ public class CustomWaits {
 
 	// waiting for 30 seconds for an element to be present on the page,
 	// checking for its presence once every five seconds.
-	public static void timeoutPollFluentWait(WebDriver driver, int WAIT_TIMEOUT_SECONDS, int POLL_EVERY_SECONDS, String errorMessage) {
-		 Wait<WebDriver> fluentWait = new FluentWait<WebDriver>(driver)
-				.withTimeout(WAIT_TIMEOUT_SECONDS, TimeUnit.SECONDS)
-				.pollingEvery(POLL_EVERY_SECONDS, TimeUnit.SECONDS)
-				.ignoring(NoSuchElementException.class)
-				.ignoring(StaleElementReferenceException.class)
+	public static void timeoutPollFluentWait(WebDriver driver, int WAIT_TIMEOUT_SECONDS, int POLL_EVERY_SECONDS,
+			String errorMessage) {
+		Wait<WebDriver> fluentWait = new FluentWait<WebDriver>(driver)
+				.withTimeout(WAIT_TIMEOUT_SECONDS, TimeUnit.SECONDS).pollingEvery(POLL_EVERY_SECONDS, TimeUnit.SECONDS)
+				.ignoring(NoSuchElementException.class).ignoring(StaleElementReferenceException.class)
 				.withMessage(errorMessage);
 	}
 
 	public static void fluentWaitForElementWithTimeoutPoll(WebDriver driver, By by, int WAIT_TIMEOUT_SECONDS,
 			int POLL_EVERY_SECONDS, String errorMessage) {
 		Wait<WebDriver> fluentWait = new FluentWait<WebDriver>(driver)
-				.withTimeout(WAIT_TIMEOUT_SECONDS, TimeUnit.SECONDS)
-				.pollingEvery(POLL_EVERY_SECONDS, TimeUnit.SECONDS)
-				.ignoring(NoSuchElementException.class)
-				.ignoring(StaleElementReferenceException.class)
+				.withTimeout(WAIT_TIMEOUT_SECONDS, TimeUnit.SECONDS).pollingEvery(POLL_EVERY_SECONDS, TimeUnit.SECONDS)
+				.ignoring(NoSuchElementException.class).ignoring(StaleElementReferenceException.class)
 				.withMessage(errorMessage);
 
 		final By byLocator = by;
@@ -51,14 +48,12 @@ public class CustomWaits {
 		});
 
 	}
-	
-	public static List<WebElement> fluentWaitForElementsWithTimeoutPoll(WebDriver driver, By by, int WAIT_TIMEOUT_SECONDS,
-			int POLL_EVERY_SECONDS, String errorMessage) {
+
+	public static List<WebElement> fluentWaitForElementsWithTimeoutPoll(WebDriver driver, By by,
+			int WAIT_TIMEOUT_SECONDS, int POLL_EVERY_SECONDS, String errorMessage) {
 		Wait<WebDriver> fluentWait = new FluentWait<WebDriver>(driver)
-				.withTimeout(WAIT_TIMEOUT_SECONDS, TimeUnit.SECONDS)
-				.pollingEvery(POLL_EVERY_SECONDS, TimeUnit.SECONDS)
-				.ignoring(NoSuchElementException.class)
-				.ignoring(StaleElementReferenceException.class)
+				.withTimeout(WAIT_TIMEOUT_SECONDS, TimeUnit.SECONDS).pollingEvery(POLL_EVERY_SECONDS, TimeUnit.SECONDS)
+				.ignoring(NoSuchElementException.class).ignoring(StaleElementReferenceException.class)
 				.withMessage(errorMessage);
 
 		final By byLocator = by;
@@ -68,7 +63,7 @@ public class CustomWaits {
 			}
 
 		});
-		
+
 		return fluentWaitElements;
 
 	}
@@ -91,7 +86,7 @@ public class CustomWaits {
 			Assert.fail("Timeout waiting for Page Load Request to complete.");
 		}
 	}
-	
+
 	public static void waitForjQueryAJAXToCompleteOnPage(WebDriver driver, String url, int WAIT_TIMEOUT_SECONDS) {
 		driver.get(url);
 		try {
@@ -122,5 +117,9 @@ public class CustomWaits {
 		return new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS).until(ExpectedConditions.presenceOfElementLocated(by));
 
 	}
-	
+
+	public static List<WebElement> waitForElementsLocatedBy(WebDriver driver, By by, int WAIT_TIMEOUT_SECONDS) {
+		return new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
+				.until(ExpectedConditions.presenceOfAllElementsLocatedBy(by));
+	}
 }

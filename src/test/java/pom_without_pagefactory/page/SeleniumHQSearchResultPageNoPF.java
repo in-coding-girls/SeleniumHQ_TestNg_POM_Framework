@@ -51,7 +51,7 @@ public class SeleniumHQSearchResultPageNoPF extends Base {
 	public int countResultsWithSearchTerm() {
 		driver.switchTo().frame(serchResultsFrameName);
 		final int resultsNumberWithSearchTerm = countResultNumberWithSearchTerm(driver, WAIT_TIMEOUT_SECONDS,
-				dynamicCombinedSearchResultLocatorBy);
+				dynamicCombinedSearchResultLocatorBy, searchTerm);
 		System.out.println("countResultsWithSearchTerm " + resultsNumberWithSearchTerm);
 		return resultsNumberWithSearchTerm;
 	}

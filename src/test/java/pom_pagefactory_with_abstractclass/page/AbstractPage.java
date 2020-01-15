@@ -1,4 +1,4 @@
-package pom_with_pagefactory.page;
+package pom_pagefactory_with_abstractclass.page;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;

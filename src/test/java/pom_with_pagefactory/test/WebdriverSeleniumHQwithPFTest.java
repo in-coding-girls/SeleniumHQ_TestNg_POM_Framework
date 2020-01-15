@@ -5,7 +5,6 @@ import org.testng.annotations.Test;
 
 import base.Base;
 import pom_with_pagefactory.page.SeleniumHQHomePagePF;
-import pom_without_pagefactory.page.SeleniumHQHomePageNoPF;
 
 public class WebdriverSeleniumHQwithPFTest extends Base {
 	@Test(description = "SearchTermResultsAreNotEmptyTest, Jira binding can be here")

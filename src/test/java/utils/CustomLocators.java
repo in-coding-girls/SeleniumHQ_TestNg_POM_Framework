@@ -38,28 +38,64 @@ public class CustomLocators {
 		}
 	}
 
-	public String buildDynamicLocatorForSearch(String defaultLocator, String containsPart, String searchTerm) {
-//	private String locatorPathStart = "//div[@id='adBlock']";
-//	private String locatorPathDynamicPartFinish = "//div[contains(@id, 'e')]";
-//	private String combinedDynamicLocatorPath = locatorPathStart + locatorPathDynamicPartFinish;
-//	private final By dynamicCombinedSearchResultLocatorBy = By.xpath(combinedDynamicLocatorPath);
-		searchTerm = "selenium java";
+	public static String buildDynamicLocatorPath(String locatorPathStart, String... locatorPathDynamicParts) {
+		String concatenatedDynamicLocator = locatorPathStart;
+
+		for (String locatorPathDynamicPart : locatorPathDynamicParts) {
+			concatenatedDynamicLocator += String.format("%s", locatorPathDynamicPart);
+
+			System.out.println("locatorPathDynamicPart " + locatorPathDynamicPart);
+			// System.out.println("DEBUG: concatenatedPathPart in loop: " +
+			// concatenatedDynamicLocator);
+		}
+
+		System.out.println("concatenatedPathPart outside loop: " + concatenatedDynamicLocator);
+		System.out.println("concatenatedPathPart " + concatenatedDynamicLocator);
+		return concatenatedDynamicLocator;
+	}
+	
+	public static By ByDynamicXpath(String locatorPathStart, String... locatorPathDynamicParts) {
+		String concatenatedDynamicLocator = locatorPathStart;
+
+		for (String locatorPathDynamicPart : locatorPathDynamicParts) {
+			concatenatedDynamicLocator += String.format("%s", locatorPathDynamicPart);
+			//System.out.println("locatorPathDynamicPart " + locatorPathDynamicPart);
+		}
+		//System.out.println("concatenatedPathPart outside loop: " + concatenatedDynamicLocator);
+		//System.out.println("concatenatedPathPart " + concatenatedDynamicLocator);
+		return By.xpath(concatenatedDynamicLocator);
+	}
+	
+	public static WebElement elemntByDynamicXpath(WebDriver driver, String locatorPathStart, String... locatorPathDynamicParts) {
+		String concatenatedDynamicLocator = locatorPathStart;
+
+		for (String locatorPathDynamicPart : locatorPathDynamicParts) {
+			concatenatedDynamicLocator += String.format("%s", locatorPathDynamicPart);
+			//System.out.println("locatorPathDynamicPart " + locatorPathDynamicPart);
+		}
+		//System.out.println("concatenatedPathPart outside loop: " + concatenatedDynamicLocator);
+		//System.out.println("concatenatedPathPart " + concatenatedDynamicLocator);
+		return driver.findElement(By.xpath(concatenatedDynamicLocator));
+	}
+
+	public static String addCustomStringToDynamicLocatorPath(String defaultLocator, String stringToAddToPath) {
 		// dynamic locator with "contains", split
 		// and iteration over the list
 		final String splitRegex = "\\s";
-		defaultLocator = "//div[contains (@id, 'adBlock')]";
-		// private String containsPart = " and contains(., '%s')";
-		containsPart = " and contains(@id, 'e')";				
-		
-		String partWithSearchTerm = "";
-		String[] terms = searchTerm.split(splitRegex);
+		final String containsPart = " and contains(., '%s')";
+
+		String partWithAddedString = "";
+		String[] terms = stringToAddToPath.split(splitRegex);
 		for (String term : terms) {
-			partWithSearchTerm += String.format(containsPart, term);
+			partWithAddedString += String.format(containsPart, term);
+			System.out.println("partWithAddedString in loop: " + partWithAddedString);
+			System.out.println("term is " + term);
 		}
-		
-		String locatorForSearch = String.format(defaultLocator, partWithSearchTerm);
-		System.out.println("DEBUG: Final locator with search terms: " + locatorForSearch);
-		return locatorForSearch;
+
+		String dynamicLocatorWithCustomString = String.format(defaultLocator + "%s", partWithAddedString);
+		System.out.println("partWithAddedString outside loop: " + partWithAddedString);
+		System.out.println("Final dynamicLocatorWithCustomString: " + dynamicLocatorWithCustomString);
+		return dynamicLocatorWithCustomString;
 	}
 
 }

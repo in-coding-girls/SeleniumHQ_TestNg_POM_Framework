@@ -1,6 +1,9 @@
 package without_pom;
 
 import base.Base;
+import utils.CustomLocators;
+import utils.CustomLocators.*;
+
 import static utils.CustomWaits.*;
 import static utils.CustomLocators.*;
 import static utils.CustomActions.*;
@@ -16,8 +19,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-
-
 public class SeleniumHQHomePageNoPOM extends Base {
 
 	private static final String HOMEPAGE_URL = "https://selenium.dev/";
@@ -28,8 +29,12 @@ public class SeleniumHQHomePageNoPOM extends Base {
 	private String serchResultsFrameName = "master-1";
 
 	private String locatorPathStart = "//div[@id='adBlock']";
-	private String locatorPathDynamicPartFinish = "//div[contains(@id, 'e')]";
-	private String combinedDynamicLocatorPath = locatorPathStart + locatorPathDynamicPartFinish;
+	private String locatorPathDynamicPart = "//div[contains(@id, 'e')]";
+	// private String combinedDynamicLocatorPath = locatorPathStart +
+	// locatorPathDynamicPart;
+	// private final By dynamicCombinedSearchResultLocatorBy =
+	// By.xpath(combinedDynamicLocatorPath);
+	private String combinedDynamicLocatorPath = buildDynamicLocatorPath(locatorPathStart, locatorPathDynamicPart);
 	private final By dynamicCombinedSearchResultLocatorBy = By.xpath(combinedDynamicLocatorPath);
 
 	@Test(description = "openHomePageTest, Jira binding can be here")
@@ -60,20 +65,8 @@ public class SeleniumHQHomePageNoPOM extends Base {
 		waitForPageToLoad(driver, HOMEPAGE_URL, WAIT_TIMEOUT_SECONDS);
 		enterValueIntoTextField(driver, searchInputByLocator, WAIT_TIMEOUT_SECONDS, searchTerm);
 		System.out.println("entered search term");
-		driver.switchTo().frame(serchResultsFrameName);
 		System.out.println("getIframeTest started");
-		System.out.println("switched to frame ");
-
-		final List<WebElement> iframes = driver.findElements(By.tagName("iframe"));
-		for (WebElement iframe : iframes) {
-			if (iframe.getAttribute("id").equals(serchResultsFrameName)) {
-				System.out.println("getIframeTest" + serchResultsFrameName + ": got by id");
-			}
-			if (iframe.getAttribute("name").equals(serchResultsFrameName)) {
-				System.out.println("getIframeTest" + serchResultsFrameName + ": got by name");
-			}
-		}
-		System.out.println("Passed frames test");
+		switchToFrameAndCountFrames(driver, serchResultsFrameName);
 	}
 
 	@Test(description = "SearchTermResultsAreNotEmptyTest, Jira binding can be here")
@@ -81,22 +74,41 @@ public class SeleniumHQHomePageNoPOM extends Base {
 		waitForPageToLoad(driver, HOMEPAGE_URL, WAIT_TIMEOUT_SECONDS);
 		enterValueIntoTextField(driver, searchInputByLocator, WAIT_TIMEOUT_SECONDS, searchTerm);
 		driver.switchTo().frame(serchResultsFrameName);
-		System.out.println("SearchTermResultsAreNotEmptyTest");
-		//int searchResultNumber = generalSearchResultsNumber(driver, WAIT_TIMEOUT_SECONDS, dynamicCombinedSearchResultLocator);
-		int searchResultNumber = fluentWaitForElementsWithTimeoutPoll(driver, dynamicCombinedSearchResultLocatorBy, WAIT_TIMEOUT_SECONDS,
-				3, "Timeout for waiting serach result list has expired").size();
+		// int searchResultNumber = generalSearchResultsNumber(driver,
+		// WAIT_TIMEOUT_SECONDS, dynamicCombinedSearchResultLocator);
+		int searchResultNumber = fluentWaitForElementsWithTimeoutPoll(driver, dynamicCombinedSearchResultLocatorBy,
+				WAIT_TIMEOUT_SECONDS, 3, "Timeout for waiting serach result list has expired").size();
 		System.out.println("SearchTermResultsAreNotEmptyTest " + searchResultNumber);
 		Assert.assertTrue(searchResultNumber > 0, "Search Term Results are empty");
 	}
 
-    @Test(description = "ResultsWithSearchTermAreNotEmptyTest, Jira binding can be here")
-    public void ResultsWithSearchTermAreNotEmptyTest() {
+	@Test(description = "ResultsWithSearchTermAreNotEmptyTest, Jira binding can be here")
+	public void ResultsWithSearchTermAreNotEmptyTest() {
 		waitForPageToLoad(driver, HOMEPAGE_URL, WAIT_TIMEOUT_SECONDS);
 		enterValueIntoTextField(driver, searchInputByLocator, WAIT_TIMEOUT_SECONDS, searchTerm);
 		driver.switchTo().frame(serchResultsFrameName);
-		int resultsNumberWithSearchTerm = countResultNumberWithSearchTerm(driver, WAIT_TIMEOUT_SECONDS, dynamicCombinedSearchResultLocatorBy);
-        System.out.println("ResultsWithSearchTermAreNotEmptyTest");
-        System.out.println("Search results number with requested term: " + resultsNumberWithSearchTerm);
-        Assert.assertTrue(resultsNumberWithSearchTerm > 0,"Search Term Results with Search Term are empty" );
-    }
+//		int resultsNumberWithSearchTerm = countResultNumberWithSearchTerm(driver, WAIT_TIMEOUT_SECONDS,
+//				dynamicCombinedSearchResultLocatorBy);
+
+		// int resultsNumberWithSearchTerm = countResultNumberWithSearchTerm(driver,
+		// dynamicCombinedSearchResultLocatorBy, searchTerm);
+		int resultsNumberWithSearchTerm = countResultNumberWithSearchTerm(driver, WAIT_TIMEOUT_SECONDS,
+				dynamicCombinedSearchResultLocatorBy, searchTerm);
+		System.out.println("Search results number with requested term: " + resultsNumberWithSearchTerm);
+		Assert.assertTrue(resultsNumberWithSearchTerm > 0, "Search Term Results with Search Term are empty");
+	}
+
+	@Test(description = "buildDynamicLocatorTest, Jira binding can be here")
+	public void buildDynamicLocatorTest() {
+		System.out.println(
+				"buildDynamicLocatorTest " + buildDynamicLocatorPath(locatorPathStart, locatorPathDynamicPart));
+
+	}
+
+	@Test(description = "addTermToDynamicPathTest, Jira binding can be here")
+	public void addTermToDynamicPathTest() {
+		System.out.println("addTermToDynamicPathTest"
+				+ addCustomStringToDynamicLocatorPath(combinedDynamicLocatorPath, searchTerm));
+
+	}
 }
