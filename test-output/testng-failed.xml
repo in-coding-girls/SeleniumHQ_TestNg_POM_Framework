@@ -3,13 +3,15 @@
 <suite guice-stage="DEVELOPMENT" name="Failed suite [Default suite]">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="without_pom.SeleniumHQHomePageNoPOM">
+      <class name="pom_pagefactory_with_abstractclass.test.WebdriverSeleniumHQwithPFTestWithAbstractClass">
         <methods>
+          <include name="ResultsWithSearchTermAreNotEmptyTest"/>
+          <include name="SearchTermResultsAreNotEmptyTest"/>
           <include name="browserSetup"/>
           <include name="browserTearDown"/>
-          <include name="ResultsWithSearchTermAreNotEmptyTest"/>
+          <include name="ResultsWithSearchTermAreNotEmptyTest2"/>
         </methods>
-      </class> <!-- without_pom.SeleniumHQHomePageNoPOM -->
+      </class> <!-- pom_pagefactory_with_abstractclass.test.WebdriverSeleniumHQwithPFTestWithAbstractClass -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

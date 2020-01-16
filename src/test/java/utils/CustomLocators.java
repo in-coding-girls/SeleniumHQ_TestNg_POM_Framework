@@ -81,11 +81,13 @@ public class CustomLocators {
 	public static String addCustomStringToDynamicLocatorPath(String defaultLocator, String stringToAddToPath) {
 		// dynamic locator with "contains", split
 		// and iteration over the list
-		final String splitRegex = "\\s";
-		final String containsPart = " and contains(., '%s')";
-
+		
+		final String containsPart = "  (., '%s')";
+		final String splitRegex = "\\s";		
+		
 		String partWithAddedString = "";
 		String[] terms = stringToAddToPath.split(splitRegex);
+		
 		for (String term : terms) {
 			partWithAddedString += String.format(containsPart, term);
 			System.out.println("partWithAddedString in loop: " + partWithAddedString);
